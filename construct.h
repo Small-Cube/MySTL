@@ -46,7 +46,7 @@ namespace MySTL {
 	//什么也不做
 	template <class _ForwardIterator>
 	inline
-		void _destroy_aux(_ForwardIterator first, _ForwardIterator last, __false_type)
+		void _destroy_aux(_ForwardIterator first, _ForwardIterator last, __true_type)
 	{
 	}
 	// 判断元素的值类型（value type）是否有 trivial destructor
