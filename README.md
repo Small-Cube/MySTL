@@ -1,12 +1,12 @@
 #MySTL<br>
 2019.5.12<br>
-实现construct.h，用来构造和析构对象<br>
+ʵ��construct.h�������������������<br>
 2019.5.13<br>
-实现uninitalized.h，内存基本工具，但是其中用到的copy、fill等算法还未实现。<br>
+ʵ��uninitalized.h���ڴ��������<br>
 2019.5.16<br>
-实现type_traits.h,用来萃取模板参数的类型
+ʵ��type_traits.h,������ȡģ���������<br>
 2019.5.20<br>
-实现copy函数和fill函数
+ʵ��copy��fill����<br>
 2019.5.22<br>
-实现基本的iterator
+ʵ�ֻ�����iterator
 
