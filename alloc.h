@@ -1,6 +1,6 @@
 /*
-* ä¸€ã€äºŒçº§é…ç½®å™¨ï¼Œå¹¶æä¾›äº†
-* æ¥å£ç±»simple_alloc
+* Ò»¡¢¶ş¼¶ÅäÖÃÆ÷£¬²¢Ìá¹©ÁË
+* ½Ó¿ÚÀàsimple_alloc
 */
 
 #ifndef ALLOC_H_
@@ -14,18 +14,18 @@ namespace MySTL
 {
 
 	/*
-	* ç¬¬ä¸€çº§é…ç½®å™¨
-	* å½“è¦æ±‚åˆ†é…çš„å†…å­˜è¶³å¤Ÿå¤§è°ƒç”¨ç¬¬ä¸€çº§é…ç½®
-	* æˆ–å½“ç¬¬äºŒçº§é…ç½®å™¨å·²æ— å¯åˆ†é…å†…å­˜æ—¶è°ƒç”¨ç¬¬ä¸€çº§é…ç½®å™¨ï¼Œåˆ©ç”¨ç±»ä¼¼new-handleræœºåˆ¶çœ‹æ˜¯å¦æœ‰
-	* åŠæ³•å¾—åˆ°ä¸€äº›å¯åˆ†é…å†…å­˜ï¼Œå¦åˆ™æŠ›å‡ºbad_allocå¼‚å¸¸
+	* µÚÒ»¼¶ÅäÖÃÆ÷
+	* µ±ÒªÇó·ÖÅäµÄÄÚ´æ×ã¹»´óµ÷ÓÃµÚÒ»¼¶ÅäÖÃ
+	* »òµ±µÚ¶ş¼¶ÅäÖÃÆ÷ÒÑÎŞ¿É·ÖÅäÄÚ´æÊ±µ÷ÓÃµÚÒ»¼¶ÅäÖÃÆ÷£¬ÀûÓÃÀàËÆnew-handler»úÖÆ¿´ÊÇ·ñÓĞ
+	* °ì·¨µÃµ½Ò»Ğ©¿É·ÖÅäÄÚ´æ£¬·ñÔòÅ×³öbad_allocÒì³£
 	*/
-	// ä»¥ä¸‹æ˜¯ç¬¬ä¸€çº§é…ç½®å™¨ã€‚
-	//æ²¡æœ‰æ¨¡æ¿å‚æ•°ï¼Œæ‰€ä»¥å…¶å®å°–æ‹¬å·é‡Œçš„instæ²¡æœ‰ç”¨ä¸Š
+	// ÒÔÏÂÊÇµÚÒ»¼¶ÅäÖÃÆ÷¡£
+	//Ã»ÓĞÄ£°å²ÎÊı£¬ËùÒÔÆäÊµ¼âÀ¨ºÅÀïµÄinstÃ»ÓĞÓÃÉÏ
 	template <int inst>
 	class _malloc_alloc_template
 	{
 	private:
-		//ä¸‹é¢å‡ ä¸ªå‡½æ•°æ˜¯ç”¨æ¥å¤„ç†å†…å­˜ä¸è¶³çš„æƒ…å†µ
+		//ÏÂÃæ¼¸¸öº¯ÊıÊÇÓÃÀ´´¦ÀíÄÚ´æ²»×ãµÄÇé¿ö
 		static void* oom_malloc(size_t);
 		static void* oom_realloc(void *, size_t);
 		static void(*_malloc_alloc_oom_handler)();
@@ -33,31 +33,31 @@ namespace MySTL
 	public:
 		static void* allocate(size_t n)
 		{
-			// ç¬¬ä¸€çº§é…ç½®å™¨ç›´æ¥ä½¿ç”¨ malloc()
+			// µÚÒ»¼¶ÅäÖÃÆ÷Ö±½ÓÊ¹ÓÃ malloc()
 			void* result = malloc(n);
-			//æ— æ³•æ»¡è¶³è¦æ±‚åˆ™æ”¹ç”¨oom_malloc
+			//ÎŞ·¨Âú×ãÒªÇóÔò¸ÄÓÃoom_malloc
 			if (0 == result) result = oom_malloc(n);
 			return result;
 		}
 
 		static void deallocate(void *p, size_t /* n */)
 		{
-			// ç¬¬ä¸€çº§é…ç½®å™¨ç›´æ¥ä½¿ç”¨ free()
+			// µÚÒ»¼¶ÅäÖÃÆ÷Ö±½ÓÊ¹ÓÃ free()
 			free(p);	             
 		}
 
 		static void* reallocate(void *p, size_t /* old_sz */, size_t new_sz)
 		{
-			//ç¬¬ä¸€çº§é…ç½®å™¨ç›´æ¥ä½¿ç”¨ realloc()
-			//reallocå‡½æ•°ç”¨äºä¿®æ”¹ä¸€ä¸ªåŸå…ˆå·²ç»åˆ†é…çš„å†…å­˜å—çš„å¤§å°ï¼Œå¯ä»¥ä½¿ä¸€å—å†…å­˜çš„æ‰©å¤§æˆ–ç¼©å°ã€‚
+			//µÚÒ»¼¶ÅäÖÃÆ÷Ö±½ÓÊ¹ÓÃ realloc()
+			//reallocº¯ÊıÓÃÓÚĞŞ¸ÄÒ»¸öÔ­ÏÈÒÑ¾­·ÖÅäµÄÄÚ´æ¿éµÄ´óĞ¡£¬¿ÉÒÔÊ¹Ò»¿éÄÚ´æµÄÀ©´ó»òËõĞ¡¡£
 			void * result = realloc(p, new_sz);	
-			//æ— æ³•æ»¡è¶³æ—¶è°ƒç”¨oom_realloc
+			//ÎŞ·¨Âú×ãÊ±µ÷ÓÃoom_realloc
 			if (0 == result) result = oom_realloc(p, new_sz);
 			return result;
 		}
 
-		// ä»¥ä¸‹ç±»ä¼¼ C++ çš„ set_new_handler().
-		//å‡½æ•°set_malloc_handlerï¼Œå®ƒæ¥å—ä¸€ä¸ªvoid (*)()ç±»å‹çš„å‚æ•°fï¼Œè¿”å›ç±»å‹ä¸ºvoid (*)()ã€‚
+		// ÒÔÏÂÀàËÆ C++ µÄ set_new_handler().
+		//º¯Êıset_malloc_handler£¬Ëü½ÓÊÜÒ»¸övoid (*)()ÀàĞÍµÄ²ÎÊıf£¬·µ»ØÀàĞÍÎªvoid (*)()¡£
 		static void(*set_malloc_handler(void(*f)()))()
 		{
 			void(*old)() = _malloc_alloc_oom_handler;
@@ -71,7 +71,7 @@ namespace MySTL
 	template <int inst>
 	void(*_malloc_alloc_template<inst>::_malloc_alloc_oom_handler)() = 0;
 
-	//ä¸Šé¢ç±»é‡Œé¢çš„å‡½æ•°å®ç°
+	//ÉÏÃæÀàÀïÃæµÄº¯ÊıÊµÏÖ
 	template <int inst>
 	void * _malloc_alloc_template<inst>::oom_malloc(size_t n)
 	{
@@ -79,7 +79,7 @@ namespace MySTL
 		void *result;
 
 		for (;;)
-		{	// ä¸æ–­å°è¯•é‡Šæ”¾ã€é…ç½®ã€å†é‡Šæ”¾ã€å†é…ç½®â€¦
+		{	// ²»¶Ï³¢ÊÔÊÍ·Å¡¢ÅäÖÃ¡¢ÔÙÊÍ·Å¡¢ÔÙÅäÖÃ¡­
 			my_malloc_handler = _malloc_alloc_oom_handler;
 			using std::bad_alloc;
 			if (0 == my_malloc_handler)
@@ -87,12 +87,12 @@ namespace MySTL
 				std::cerr << "out of memory!" << std::endl;
 				exit(1);
 			}
-			(*my_malloc_handler)();		// å‘¼å«å¤„ç†ç¨‹åºï¼Œä¼å›¾é‡Šæ”¾å†…å­˜ã€‚
-			result = malloc(n);			// å†æ¬¡å°è¯•é…ç½®å†…å­˜ã€‚
+			(*my_malloc_handler)();		// ºô½Ğ´¦Àí³ÌĞò£¬ÆóÍ¼ÊÍ·ÅÄÚ´æ¡£
+			result = malloc(n);			// ÔÙ´Î³¢ÊÔÅäÖÃÄÚ´æ¡£
 			if (result) return(result);
 		}
 	}
-	//ä¸Šé¢ç±»é‡Œé¢çš„å‡½æ•°å®ç°
+	//ÉÏÃæÀàÀïÃæµÄº¯ÊıÊµÏÖ
 	template <int inst>
 	void * _malloc_alloc_template<inst>::oom_realloc(void *p, size_t n)
 	{
@@ -100,27 +100,27 @@ namespace MySTL
 		void *result;
 
 		for (;;)
-		{   // ä¸æ–­å°è¯•é‡Šæ”¾ã€é…ç½®ã€å†é‡Šæ”¾ã€å†é…ç½®â€¦
+		{   // ²»¶Ï³¢ÊÔÊÍ·Å¡¢ÅäÖÃ¡¢ÔÙÊÍ·Å¡¢ÔÙÅäÖÃ¡­
 			my_malloc_handler = _malloc_alloc_oom_handler;
 			if (0 == my_malloc_handler)
 			{
 				std::cerr << "out of memory!" << std::endl;
 				exit(1);
 			}
-			(*my_malloc_handler)();	// å‘¼å«å¤„ç†ç¨‹åºï¼Œä¼å›¾é‡Šæ”¾å†…å­˜ã€‚
-			result = realloc(p, n);	// å†æ¬¡å°è¯•é…ç½®å†…å­˜ã€‚
+			(*my_malloc_handler)();	// ºô½Ğ´¦Àí³ÌĞò£¬ÆóÍ¼ÊÍ·ÅÄÚ´æ¡£
+			result = realloc(p, n);	// ÔÙ´Î³¢ÊÔÅäÖÃÄÚ´æ¡£
 			if (result) return(result);
 		}
 	}
 
 	typedef _malloc_alloc_template<0> malloc_alloc;  
-	//ç¬¬ä¸€çº§é…ç½®å™¨åˆ°ä»¥ä¸Šç»“æŸ
-	/*ç¬¬ä¸€çº§é…ç½®å™¨ä»¥malloc(),free(),realloc(),ç­‰Cå‡½æ•°æ‰§è¡Œå®é™…å†…å­˜
-	*é…ç½®ã€é‡Šæ”¾ã€é‡é…ç½®ç­‰æ“ä½œï¼Œå¹¶ä¸”åˆ©ç”¨ç±»ä¼¼C++ new handleræœºåˆ¶ä¸èƒ½ç›´æ¥
-	*ä½¿ç”¨ï¼Œæ˜¯å› ä¸ºå…¶å†…å­˜ä¸æ˜¯ç”¨::operator newæ¥é…ç½®å†…å­˜çš„ã€‚
-	*å¦‚æœå†…å­˜ä¸è¶³ä¼šæŠ›å‡ºå¼‚å¸¸æˆ–è€…åˆ©ç”¨exit(1)ä¸­æ­¢ç¨‹åº
+	//µÚÒ»¼¶ÅäÖÃÆ÷µ½ÒÔÉÏ½áÊø
+	/*µÚÒ»¼¶ÅäÖÃÆ÷ÒÔmalloc(),free(),realloc(),µÈCº¯ÊıÖ´ĞĞÊµ¼ÊÄÚ´æ
+	*ÅäÖÃ¡¢ÊÍ·Å¡¢ÖØÅäÖÃµÈ²Ù×÷£¬²¢ÇÒÀûÓÃÀàËÆC++ new handler»úÖÆ²»ÄÜÖ±½Ó
+	*Ê¹ÓÃ£¬ÊÇÒòÎªÆäÄÚ´æ²»ÊÇÓÃ::operator newÀ´ÅäÖÃÄÚ´æµÄ¡£
+	*Èç¹ûÄÚ´æ²»×ã»áÅ×³öÒì³£»òÕßÀûÓÃexit(1)ÖĞÖ¹³ÌĞò
 	*/
-	 //ä»¥ä¸‹ä¸ºé…ç½®å™¨æ¥å£ç±»
+	 //ÒÔÏÂÎªÅäÖÃÆ÷½Ó¿ÚÀà
 	template<class _T, class _Alloc>
 	class simple_alloc
 	{
@@ -144,25 +144,25 @@ namespace MySTL
 		}
 	};
 
-	// ä»¥ä¸‹æ˜¯ç¬¬äºŒçº§é…ç½®å™¨ã€‚
-	//æºç ä¸­æœ‰çº¿ç¨‹ç›¸å…³çš„ä¸€ä¸ªå‚æ•°ï¼Œè¿™é‡Œçœç•¥ã€‚
+	// ÒÔÏÂÊÇµÚ¶ş¼¶ÅäÖÃÆ÷¡£
+	//Ô´ÂëÖĞÓĞÏß³ÌÏà¹ØµÄÒ»¸ö²ÎÊı£¬ÕâÀïÊ¡ÂÔ¡£
 	template <int inst>
 	class _default_alloc_template
 	{
 
 	private:
-		static const int _ALIGN = 8;            // å°å‹åŒºå—çš„ä¸Šè°ƒè¾¹ç•Œ
-		static const int _MAX_BYTES = 128;      // å°å‹åŒºå—çš„ä¸Šé™
-		static const int _NFREELISTS = 16;      //free-lists ä¸ªæ•°(_MAX_BYTES / _ALIGN)
+		static const int _ALIGN = 8;            // Ğ¡ĞÍÇø¿éµÄÉÏµ÷±ß½ç
+		static const int _MAX_BYTES = 128;      // Ğ¡ĞÍÇø¿éµÄÉÏÏŞ
+		static const int _NFREELISTS = 16;      //free-lists ¸öÊı(_MAX_BYTES / _ALIGN)
 		
-		//å°†bytesä¸Šè°ƒä¸º8çš„å€æ•°
+		//½«bytesÉÏµ÷Îª8µÄ±¶Êı
 		static size_t ROUND_UP(size_t bytes)    
 		{
-			//è¿™æ®µä»£ç æ˜¯å¸¸ç”¨çš„å†…å­˜è°ƒæ•´çš„å¸¸ç”¨å·¥å…·ï¼Œå°†è¾“å…¥bytesè°ƒæ•´åˆ°ALLGNçš„å€æ•°
+			//Õâ¶Î´úÂëÊÇ³£ÓÃµÄÄÚ´æµ÷ÕûµÄ³£ÓÃ¹¤¾ß£¬½«ÊäÈëbytesµ÷Õûµ½ALLGNµÄ±¶Êı
 			
 			return (((bytes)+_ALIGN - 1) & ~(_ALIGN - 1));
 		}
-		//free listèŠ‚ç‚¹
+		//free list½Úµã
 		union obj                           
 		{
 			union obj* free_list_link;
@@ -170,46 +170,46 @@ namespace MySTL
 		};
 
 	private:
-		//æ•°ç»„æŒ‡é’ˆï¼Œé‡Œé¢æ”¾ç€æ˜¯æŒ‡é’ˆæŒ‡å‘ä¸€ä¸ªobjã€‚
-		static obj* free_list[_NFREELISTS]; //16ä¸ªè‡ªç”±é“¾è¡¨
-		//æ ¹æ®byteså¤§å°å†³å®šä½¿ç”¨çš„é“¾è¡¨å·
+		//Êı×éÖ¸Õë£¬ÀïÃæ·Å×ÅÊÇÖ¸ÕëÖ¸ÏòÒ»¸öobj¡£
+		static obj* free_list[_NFREELISTS]; //16¸ö×ÔÓÉÁ´±í
+		//¸ù¾İbytes´óĞ¡¾ö¶¨Ê¹ÓÃµÄÁ´±íºÅ
 		static  size_t FREELIST_INDEX(size_t bytes)  
 		{
 			return (((bytes)+_ALIGN - 1) / _ALIGN - 1);
 		}
 
-		//allocate()æ—¶è‡ªç”±é“¾è¡¨æ— å¯ç”¨ç©ºé—´ï¼Œè°ƒç”¨refill()ï¼Œ
-		//è¿”å›ä¸€ä¸ªå¤§å°ä¸ºnçš„å¯¹è±¡ï¼Œå¹¶å¯èƒ½åŠ å…¥å¤§å°ä¸ºnçš„å…¶ä»–åŒºå—åˆ°è‡ªç”±é“¾è¡¨
+		//allocate()Ê±×ÔÓÉÁ´±íÎŞ¿ÉÓÃ¿Õ¼ä£¬µ÷ÓÃrefill()£¬
+		//·µ»ØÒ»¸ö´óĞ¡ÎªnµÄ¶ÔÏó£¬²¢¿ÉÄÜ¼ÓÈë´óĞ¡ÎªnµÄÆäËûÇø¿éµ½×ÔÓÉÁ´±í
 		static void* refill(size_t n);
-		//ä»å†…å­˜æ± å–ç©ºé—´,nobjsä¸ºä¼ å¼•ç”¨å‚æ•°ï¼Œåˆ†é…ä¸€ä¸ªå¤§çš„ç©ºé—´ï¼Œå¯ä»¥å®¹çº³
-		//nobjsä¸ªsize,å¦‚æœé…ç½®è¿™ä¹ˆå¤šä¸ªä¸å¯ä»¥ï¼Œè¿™ä¸ªå€¼å¯èƒ½ä¼šè¾ƒå°‘
+		//´ÓÄÚ´æ³ØÈ¡¿Õ¼ä,nobjsÎª´«ÒıÓÃ²ÎÊı£¬·ÖÅäÒ»¸ö´óµÄ¿Õ¼ä£¬¿ÉÒÔÈİÄÉ
+		//nobjs¸ösize,Èç¹ûÅäÖÃÕâÃ´¶à¸ö²»¿ÉÒÔ£¬Õâ¸öÖµ¿ÉÄÜ»á½ÏÉÙ
 		static char* chunk_alloc(size_t size, int& nobjs); 
 
-	    //å†…å­˜æ± æ°´ä½æ ‡å¿—
-		static char* start_free; //èµ·å§‹ä½ç½®ï¼Œåªåœ¨chunk_allocä¸­å˜åŒ–
-		static char* end_free;   //ç»ˆæ­¢ä½ç½®ï¼Œåªåœ¨chunk_allocä¸­å˜åŒ–
-		static size_t heap_size; //å¤§å°
+	    //ÄÚ´æ³ØË®Î»±êÖ¾
+		static char* start_free; //ÆğÊ¼Î»ÖÃ£¬Ö»ÔÚchunk_allocÖĞ±ä»¯
+		static char* end_free;   //ÖÕÖ¹Î»ÖÃ£¬Ö»ÔÚchunk_allocÖĞ±ä»¯
+		static size_t heap_size; //´óĞ¡
 
 	public:
 		static void * allocate(size_t n) /* n must be > 0 */
 		{
 			obj** my_free_list;
 			obj* result;
-			//å¤§äº128ï¼Œè°ƒç”¨ç¬¬ä¸€çº§é…ç½®å™¨
+			//´óÓÚ128£¬µ÷ÓÃµÚÒ»¼¶ÅäÖÃÆ÷
 			if (n > (size_t)_MAX_BYTES)          
 			{
 				return(malloc_alloc::allocate(n));
 			}
-			//å†³å®šä½¿ç”¨16ä¸ªè‡ªç”±é“¾è¡¨ä¸­çš„å“ªä¸€ä¸ª
+			//¾ö¶¨Ê¹ÓÃ16¸ö×ÔÓÉÁ´±íÖĞµÄÄÄÒ»¸ö
 			my_free_list = free_list + FREELIST_INDEX(n);  
 			result = *my_free_list;
 			if (result == 0)
 			{
-				//åˆ†é…å¤±è´¥è°ƒç”¨refill()
+				//·ÖÅäÊ§°Üµ÷ÓÃrefill()
 				void *r = refill(ROUND_UP(n));      
 				return r;
 			}
-			//è°ƒæ•´è‡ªç”±é“¾è¡¨
+			//µ÷Õû×ÔÓÉÁ´±í
 			*my_free_list = result->free_list_link;
 			return (result);
 		};
@@ -219,14 +219,14 @@ namespace MySTL
 			obj* q = (obj*)p;
 			obj** my_free_list;
 
-			if (n > (size_t)_MAX_BYTES)     //è°ƒç”¨ç¬¬ä¸€çº§é…ç½®å™¨
+			if (n > (size_t)_MAX_BYTES)     //µ÷ÓÃµÚÒ»¼¶ÅäÖÃÆ÷
 			{
 				malloc_alloc::deallocate(p, n);
 				return;
 			}
 
 			my_free_list = free_list + FREELIST_INDEX(n);
-			//è°ƒæ•´è‡ªç”±é“¾è¡¨ï¼Œå›æ”¶åŒºå—
+			//µ÷Õû×ÔÓÉÁ´±í£¬»ØÊÕÇø¿é
 			q->free_list_link = *my_free_list;
 			*my_free_list = q;
 		}
@@ -236,21 +236,21 @@ namespace MySTL
 
 	typedef _default_alloc_template<0> alloc;
 	typedef _default_alloc_template<0> single_client_alloc;
-	//å‡å®šsizeå·²ä¸Šè°ƒè‡³8çš„å€æ•°
+	//¼Ù¶¨sizeÒÑÉÏµ÷ÖÁ8µÄ±¶Êı
 	template <int inst>
 	char* _default_alloc_template<inst>::chunk_alloc(size_t size, int& nobjs) 
 	{
 		char * result;
-		size_t total_bytes = size * nobjs;     //éœ€åˆ†é…å¤§å°
-		size_t bytes_left = end_free - start_free;//å†…å­˜æ± ä½™é‡
-		//å†…å­˜æ± å‰©ä½™ç©ºé—´å®Œå…¨æ»¡è¶³
+		size_t total_bytes = size * nobjs;     //Ğè·ÖÅä´óĞ¡
+		size_t bytes_left = end_free - start_free;//ÄÚ´æ³ØÓàÁ¿
+		//ÄÚ´æ³ØÊ£Óà¿Õ¼äÍêÈ«Âú×ã
 		if (bytes_left >= total_bytes)  
 		{
 			result = start_free;
 			start_free += total_bytes;
 			return(result);
 		}
-		//ä½™é‡ä¸è¶³ï¼Œä½†æ˜¯å¯ä»¥ä¾›åº”ä¸€ä¸ªåŠä»¥ä¸ŠåŒºå—
+		//ÓàÁ¿²»×ã£¬µ«ÊÇ¿ÉÒÔ¹©Ó¦Ò»¸ö¼°ÒÔÉÏÇø¿é
 		else if (bytes_left >= size)  
 		{
 			nobjs = int(bytes_left / size);
@@ -261,25 +261,25 @@ namespace MySTL
 		}
 		else  
 		{
-			//å†…å­˜æ± ä½™é‡ä¸è¶³ä¸€ä¸ªåŒºå—
-			//è¯·æ±‚å †ç©ºé—´å¤§å°ä¸º2å€éœ€æ±‚é‡åŠ ä¸Šä¸€ä¸ªéšåˆ†é…æ¬¡æ•°é€’å¢é‡
+			//ÄÚ´æ³ØÓàÁ¿²»×ãÒ»¸öÇø¿é
+			//ÇëÇó¶Ñ¿Õ¼ä´óĞ¡Îª2±¶ĞèÇóÁ¿¼ÓÉÏÒ»¸öËæ·ÖÅä´ÎÊıµİÔöÁ¿
 			size_t bytes_to_get = 2 * total_bytes + ROUND_UP(heap_size >> 4);
-			// å°è¯•åˆ©ç”¨å†…å­˜æ± çš„é›¶å¤´
+			// ³¢ÊÔÀûÓÃÄÚ´æ³ØµÄÁãÍ·
 			if (bytes_left > 0)
 			{
-				//æ‰¾å¯»é€‚åˆçš„è‡ªç”±é“¾è¡¨
+				//ÕÒÑ°ÊÊºÏµÄ×ÔÓÉÁ´±í
 				obj** my_free_list = free_list + FREELIST_INDEX(bytes_left);
-				//è°ƒæ•´è‡ªç”±é“¾è¡¨ï¼Œçº³å…¥è¿™äº›é›¶å¤´
+				//µ÷Õû×ÔÓÉÁ´±í£¬ÄÉÈëÕâĞ©ÁãÍ·
 				((obj *)start_free)->free_list_link = *my_free_list;
 				*my_free_list = (obj *)start_free;
 			}
-			//åˆ†é…å †ç©ºé—´ï¼Œè¡¥å……å†…å­˜æ± 
+			//·ÖÅä¶Ñ¿Õ¼ä£¬²¹³äÄÚ´æ³Ø
 			start_free = (char *)malloc(bytes_to_get);
-			if (0 == start_free) //å †ç©ºé—´ä¸è¶³
+			if (0 == start_free) //¶Ñ¿Õ¼ä²»×ã
 			{
 				int i;
 				obj** my_free_list, *p;
-				//æ‰¾å¯»è‡ªç”±é“¾è¡¨ä¸­å«æœ‰å°šæœªä½¿ç”¨ä¸”è¶³å¤Ÿå¤§è€…
+				//ÕÒÑ°×ÔÓÉÁ´±íÖĞº¬ÓĞÉĞÎ´Ê¹ÓÃÇÒ×ã¹»´óÕß
 				for (i = (int)size; i <= _MAX_BYTES; i += _ALIGN)
 				{
 					my_free_list = free_list + FREELIST_INDEX(i);
@@ -289,13 +289,13 @@ namespace MySTL
 						*my_free_list = p->free_list_link;
 						start_free = (char *)p;
 						end_free = start_free + i;
-						//é€’å½’è°ƒç”¨è‡ªå·±ï¼Œä¿®æ­£å‚æ•°nobjs
+						//µİ¹éµ÷ÓÃ×Ô¼º£¬ĞŞÕı²ÎÊınobjs
 						return(chunk_alloc(size, nobjs));
-						//æœ€ç»ˆå†…å­˜æ± æ®‹ä½™çš„é›¶å¤´éƒ½è¢«çº³å…¥é€‚å½“çš„è‡ªç”±é“¾è¡¨ä¸­
+						//×îÖÕÄÚ´æ³Ø²ĞÓàµÄÁãÍ·¶¼±»ÄÉÈëÊÊµ±µÄ×ÔÓÉÁ´±íÖĞ
 					}
 				}
-				end_free = 0; //å±±ç©·æ°´å°½ï¼Œåˆ°å¤„éƒ½æ²¡æœ‰å†…å­˜å¯ç”¨
-			//è¿™æ—¶è°ƒç”¨ç¬¬ä¸€çº§é…ç½®å™¨ï¼Œåˆ©ç”¨å…¶å¼‚å¸¸å¤„ç†çœ‹æ˜¯å¦æœ‰è§£å†³åŠæ³•
+				end_free = 0; //É½ÇîË®¾¡£¬µ½´¦¶¼Ã»ÓĞÄÚ´æ¿ÉÓÃ
+			//ÕâÊ±µ÷ÓÃµÚÒ»¼¶ÅäÖÃÆ÷£¬ÀûÓÃÆäÒì³£´¦Àí¿´ÊÇ·ñÓĞ½â¾ö°ì·¨
 				start_free = (char*)malloc_alloc::allocate(bytes_to_get);
 			}
 			heap_size += bytes_to_get;
@@ -305,29 +305,29 @@ namespace MySTL
 	}
 
 
-	//å¦‚æœallocate()å‘ç°é“¾è¡¨ä¸­æ²¡æœ‰å¯ç”¨åŒºå—ï¼Œé‚£ä¹ˆä¼šè°ƒç”¨è¿™ä¸ªå‡½æ•°
-	//æ–°çš„ç©ºé—´å–è‡ªå†…å­˜æ± ï¼ˆç”±chunk_alloc()å®Œæˆï¼‰ï¼Œé»˜è®¤å–å¾—20ä¸ªæ–°èŠ‚ç‚¹ï¼ˆåŒºå—ï¼‰
-	//å†…å­˜æ± ä¸è¶³å¯èƒ½ä¼šå°äº20ä¸ª
+	//Èç¹ûallocate()·¢ÏÖÁ´±íÖĞÃ»ÓĞ¿ÉÓÃÇø¿é£¬ÄÇÃ´»áµ÷ÓÃÕâ¸öº¯Êı
+	//ĞÂµÄ¿Õ¼äÈ¡×ÔÄÚ´æ³Ø£¨ÓÉchunk_alloc()Íê³É£©£¬Ä¬ÈÏÈ¡µÃ20¸öĞÂ½Úµã£¨Çø¿é£©
+	//ÄÚ´æ³Ø²»×ã¿ÉÄÜ»áĞ¡ÓÚ20¸ö
 	template <int inst>
-	void* _default_alloc_template<inst>::refill(size_t n) //å‡å®šnå·²ç»ä¸Šè°ƒä¸º8çš„å€æ•°
+	void* _default_alloc_template<inst>::refill(size_t n) //¼Ù¶¨nÒÑ¾­ÉÏµ÷Îª8µÄ±¶Êı
 	{
 		int nobjs = 20;
-		//å°è¯•ä»å†…å­˜æ± åˆ†é…æ‰€éœ€ç©ºé—´å–å¾—nobjsä¸ªåŒºå—ï¼Œnobjsæ˜¯å¼•ç”¨
+		//³¢ÊÔ´ÓÄÚ´æ³Ø·ÖÅäËùĞè¿Õ¼äÈ¡µÃnobjs¸öÇø¿é£¬nobjsÊÇÒıÓÃ
 		char* chunk = chunk_alloc(n, nobjs); 
 		obj** my_free_list;
 		obj* result;
 		obj* current_obj, *next_obj;
 		int i;
-		//å¦‚æœæ°å¥½åªåˆ†é…åˆ°ä¸€ä¸ªåŒºå—ï¼Œç›´æ¥è¿”å›ç»™è°ƒç”¨è€…ï¼Œè‡ªç”±é“¾è¡¨æ²¡æœ‰æ–°èŠ‚ç‚¹
+		//Èç¹ûÇ¡ºÃÖ»·ÖÅäµ½Ò»¸öÇø¿é£¬Ö±½Ó·µ»Ø¸øµ÷ÓÃÕß£¬×ÔÓÉÁ´±íÃ»ÓĞĞÂ½Úµã
 		if (1 == nobjs) return(chunk);
-		//å¦åˆ™è°ƒæ•´è‡ªç”±é“¾è¡¨ä»¥æ¥çº³å‰©ä½™ç©ºé—´
+		//·ñÔòµ÷Õû×ÔÓÉÁ´±íÒÔ½ÓÄÉÊ£Óà¿Õ¼ä
 		my_free_list = free_list + FREELIST_INDEX(n);
 
-		//ä»¥ä¸‹åœ¨å†…å­˜æ± å»ºç«‹è‡ªç”±é“¾è¡¨
-		result = (obj *)chunk;//è¿™ä¸€å—è¿”å›ç»™å®¢ç«¯
-	    //å¼•å¯¼è‡ªç”±é“¾è¡¨æ¥çº³ä»å†…å­˜æ± åˆ†é…çš„å¤šä½™ç©ºé—´
+		//ÒÔÏÂÔÚÄÚ´æ³Ø½¨Á¢×ÔÓÉÁ´±í
+		result = (obj *)chunk;//ÕâÒ»¿é·µ»Ø¸ø¿Í¶Ë
+	    //Òıµ¼×ÔÓÉÁ´±í½ÓÄÉ´ÓÄÚ´æ³Ø·ÖÅäµÄ¶àÓà¿Õ¼ä
 		*my_free_list = next_obj = (obj *)(chunk + n);
-		for (i = 1; ; i++) //ç¼–å·0çš„åŒºå—è¿”å›ç»™è°ƒç”¨è€…
+		for (i = 1; ; i++) //±àºÅ0µÄÇø¿é·µ»Ø¸øµ÷ÓÃÕß
 		{
 			current_obj = next_obj;
 			next_obj = (obj *)((char *)next_obj + n);

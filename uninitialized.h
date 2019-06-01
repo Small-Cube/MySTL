@@ -1,31 +1,32 @@
 /*
-*STLä¸­æœ‰äº”ä¸ªå…¨å±€å‡½æ•°ä½œç”¨äºæœªåˆå§‹åŒ–çš„ç©ºé—´ä¸Šï¼Œè¿™ä¸ªæ–‡ä»¶å®ç°ä¸‹é¢ä¸‰ä¸ª
+*STLÖĞÓĞÎå¸öÈ«¾Öº¯Êı×÷ÓÃÓÚÎ´³õÊ¼»¯µÄ¿Õ¼äÉÏ£¬Õâ¸öÎÄ¼şÊµÏÖÏÂÃæÈı¸ö
 * uninitialized_copy(),uninitialized_fill(),
-* uninitialized_fill_n(),ä»¥åŠå…¶ä»–ç›¸å…³å‡½æ•°
+* uninitialized_fill_n(),ÒÔ¼°ÆäËûÏà¹Øº¯Êı
 */
 #ifndef UNINITIALIZED_H_
 #define UNINITIALIZED_H_
 #include "construct.h"
 #include "algorithm.h"
+#include "pair.h"
 namespace MySTL {
 	/*
-	* ä»¥ä¸‹æ˜¯uninitialized_copyçš„å®ç°
-	*å®¹å™¨çš„å…¨åŒºé—´æ„é€ å‡½æ•°ä¼šé¦–å…ˆé…ç½®å†…å­˜åŒºå—ï¼Œè¶³ä»¥åŒ…å«èŒƒå›´å†…æ‰€æœ‰å…ƒç´ 
-	**ç„¶åä¼šè°ƒç”¨uninitialized_copy()åœ¨è¯¥å†…å­˜åŒºå—ä¸Šæ„é€ å…ƒç´ 
+	* ÒÔÏÂÊÇuninitialized_copyµÄÊµÏÖ
+	*ÈİÆ÷µÄÈ«Çø¼ä¹¹Ôìº¯Êı»áÊ×ÏÈÅäÖÃÄÚ´æÇø¿é£¬×ãÒÔ°üº¬·¶Î§ÄÚËùÓĞÔªËØ
+	**È»ºó»áµ÷ÓÃuninitialized_copy()ÔÚ¸ÃÄÚ´æÇø¿éÉÏ¹¹ÔìÔªËØ
 	*/
-	//å¦‚æœæ˜¯PODæ•°æ®ç±»å‹ï¼Œæ‰§è¡Œä¸‹é¢çš„å‡½æ•°
-	/*PODæ•°æ®ç±»å‹æ˜¯ä¸ºäº†è§£å†³C++ä¸Cä¹‹é—´æ•°æ®ç±»å‹çš„å…¼å®¹æ€§
-	*å¯ä»¥ç®€å•åœ°ç†è§£ä¸ºå¦‚æœå¯¹è±¡æ˜¯é‡‡ç”¨é»˜è®¤æ„é€ å‡½æ•°ã€
-	*é»˜è®¤ææ„å‡½æ•°ã€é»˜è®¤æ‹·è´èµ‹å€¼å‡½æ•°å°±è®¤ä¸ºæ˜¯PODï¼Œå¦åˆ™å°±ä¸æ˜¯
-	*PODæ•°æ®ç±»å‹å†…å­˜ä¸­æ˜¯è¿ç»­çš„
+	//Èç¹ûÊÇPODÊı¾İÀàĞÍ£¬Ö´ĞĞÏÂÃæµÄº¯Êı
+	/*PODÊı¾İÀàĞÍÊÇÎªÁË½â¾öC++ÓëCÖ®¼äÊı¾İÀàĞÍµÄ¼æÈİĞÔ
+	*¿ÉÒÔ¼òµ¥µØÀí½âÎªÈç¹û¶ÔÏóÊÇ²ÉÓÃÄ¬ÈÏ¹¹Ôìº¯Êı¡¢
+	*Ä¬ÈÏÎö¹¹º¯Êı¡¢Ä¬ÈÏ¿½±´¸³Öµº¯Êı¾ÍÈÏÎªÊÇPOD£¬·ñÔò¾Í²»ÊÇ
+	*PODÊı¾İÀàĞÍÄÚ´æÖĞÊÇÁ¬ĞøµÄ
 	*/
 	template<class _InputIterator,class _ForwordIterator>
 	_ForwordIterator _uninitialized_copy_aux(_InputIterator first, _InputIterator last,
-		_ForwardIterator result, __true_type) {
-		//copyå‡½æ•°åœ¨algobase.hé‡Œå®ç°
-		rerturn copy(first, last, result);
+		_ForwordIterator result, __true_type) {
+		//copyº¯ÊıÔÚalgobase.hÀïÊµÏÖ
+		return copy(first, last, result);
 	}
-	// å¦‚æœæ˜¯non-POD å‹åˆ«ï¼Œæ‰§è¡Œæµç¨‹å°±ä¼šè½¬è¿›åˆ°ä»¥ä¸‹å‡½æ•°
+	// Èç¹ûÊÇnon-POD ĞÍ±ğ£¬Ö´ĞĞÁ÷³Ì¾Í»á×ª½øµ½ÒÔÏÂº¯Êı
 	template <class _InputIterator, class _ForwardIterator>
 	_ForwardIterator _uninitialized_copy_aux(_InputIterator first, _InputIterator last,
 		_ForwardIterator result, __false_type)
@@ -34,7 +35,7 @@ namespace MySTL {
 		try
 		{
 			for (; first != last; ++first, ++cur)
-				construct(&*cur, *first);	//å¿…é¡»ä¸€ä¸ªä¸€ä¸ªå…ƒç´ åœ°å»ºæ„ï¼Œæ— æ³•æ‰¹é‡è¿›è¡Œ
+				construct(&*cur, *first);	//±ØĞëÒ»¸öÒ»¸öÔªËØµØ½¨¹¹£¬ÎŞ·¨ÅúÁ¿½øĞĞ
 			return cur;
 		}
 		catch (...)
@@ -43,16 +44,16 @@ namespace MySTL {
 			throw;
 		}
 	}
-	//_uninitialized_copyå‡½æ•°ï¼Œåˆ©ç”¨èƒå–æŠ€æœ¯æ ¹æ®ä¼ å…¥å¯¹è±¡è°ƒç”¨ä¸Šé¢ä¸¤ä¸ªä¸åŒå‡½æ•°
-	//å‡½æ•°åŠŸèƒ½ï¼šè¾“å…¥ä¸€ä¸ªè¿­ä»£å™¨èŒƒå›´ï¼Œåœ¨ä»¥resultèµ·å§‹ä½ç½®ä¸Šï¼Œå¤åˆ¶
-	//ä»firståˆ°lastè¿­ä»£å™¨æŒ‡å‘çš„å¯¹è±¡ï¼Œç„¶åæ”¾åœ¨resultå¼€å§‹çš„ä½ç½®ã€‚
+	//_uninitialized_copyº¯Êı£¬ÀûÓÃİÍÈ¡¼¼Êõ¸ù¾İ´«Èë¶ÔÏóµ÷ÓÃÉÏÃæÁ½¸ö²»Í¬º¯Êı
+	//º¯Êı¹¦ÄÜ£ºÊäÈëÒ»¸öµü´úÆ÷·¶Î§£¬ÔÚÒÔresultÆğÊ¼Î»ÖÃÉÏ£¬¸´ÖÆ
+	//´Ófirstµ½lastµü´úÆ÷Ö¸ÏòµÄ¶ÔÏó£¬È»ºó·ÅÔÚresult¿ªÊ¼µÄÎ»ÖÃ¡£
 	template <class _InputIterator, class _ForwardIterator, class _T>
 	inline
 		_ForwardIterator _uninitialized_copy(_InputIterator first, _InputIterator last,
 			_ForwardIterator result, _T*)
 	{
 		typedef typename __type_traits<_T>::is_POD_type is_POD;
-		//åˆ©ç”¨ is_POD() æ‰€è·å¾—çš„ç»“æœï¼Œè®©ç¼–è¯‘ç¨‹åºåšè‡ªå˜é‡æ¨å¯¼ã€‚
+		//ÀûÓÃ is_POD() Ëù»ñµÃµÄ½á¹û£¬ÈÃ±àÒë³ÌĞò×ö×Ô±äÁ¿ÍÆµ¼¡£
 		return _uninitialized_copy_aux(first, last, result, is_POD());
 
 	}
@@ -62,13 +63,13 @@ namespace MySTL {
 		_ForwardIterator uninitialized_copy(_InputIterator first, _InputIterator last,
 			_ForwardIterator result)
 	{
-		//åˆ©ç”¨ value_type() å–å‡º first çš„ value type.
+		//ÀûÓÃ value_type() È¡³ö first µÄ value type.
 		return _uninitialized_copy(first, last, result, value_type(result));
 
 	}
 
-	// ä»¥ä¸‹æ˜¯é’ˆå¯¹ const char* çš„ç‰¹åŒ–ç‰ˆæœ¬
-	// é‡‡ç”¨memmove()å‡½æ•°å¿«é€Ÿæ‹·è´
+	// ÒÔÏÂÊÇÕë¶Ô const char* µÄÌØ»¯°æ±¾
+	// ²ÉÓÃmemmove()º¯Êı¿ìËÙ¿½±´
 	inline
 		char* uninitialized_copy(const char* first, const char* last, char* result)
 	{
@@ -76,12 +77,12 @@ namespace MySTL {
 		return result + (last - first);
 	}
 
-	/* ä»¥ä¸‹æ˜¯uninitialized_copy_nçš„å®ç°ï¼š
-	*næ˜¯è¦æ„é€ çš„å…ƒç´ çš„ä¸ªæ•°
+	/* ÒÔÏÂÊÇuninitialized_copy_nµÄÊµÏÖ£º
+	*nÊÇÒª¹¹ÔìµÄÔªËØµÄ¸öÊı
 	*
 	*/
 	
-	//è¿­ä»£å™¨ç±»å‹æ˜¯input_iterator_tag
+	//µü´úÆ÷ÀàĞÍÊÇinput_iterator_tag
 	template <class _InputIterator, class _Size, class _ForwardIterator>
 	pair<_InputIterator, _ForwardIterator> _uninitialized_copy_n(_InputIterator first,
 		_Size count, _ForwardIterator result, input_iterator_tag)
@@ -99,7 +100,7 @@ namespace MySTL {
 			throw;
 		}
 	}
-	//è¿­ä»£å™¨ç±»å‹æ˜¯random_access_iterator_tag
+	//µü´úÆ÷ÀàĞÍÊÇrandom_access_iterator_tag
 	template <class _RandomAccessIterator, class _Size, class _ForwardIterator>
 	inline
 		pair<_RandomAccessIterator, _ForwardIterator> _uninitialized_copy_n(
@@ -110,33 +111,33 @@ namespace MySTL {
 		return make_pair(last, uninitialized_copy(first, last, result));
 	}
 
-	//æ ¹æ®è¿­ä»£å™¨ç±»å‹è·³è½¬åˆ°ä¸Šé¢ä¸¤ä¸ªå‡½æ•°ä¸­ä¸€ä¸ª
+	//¸ù¾İµü´úÆ÷ÀàĞÍÌø×ªµ½ÉÏÃæÁ½¸öº¯ÊıÖĞÒ»¸ö
 	template <class _InputIterator, class _Size, class _ForwardIterator>
 	inline
 		pair<_InputIterator, _ForwardIterator> uninitialized_copy_n(_InputIterator first,
 			_Size count, _ForwardIterator result)
 	{
-		//æ ¹æ®è¿­ä»£å™¨å‹åˆ«è·³è½¬æ‰§è¡Œå‡½æ•°
+		//¸ù¾İµü´úÆ÷ĞÍ±ğÌø×ªÖ´ĞĞº¯Êı
 		return _uninitialized_copy_n(first, count, result, iterator_category(first));
 	}
 
-	/* ä»¥ä¸‹æ˜¯uninitialized_fillçš„å®ç°ï¼š
+	/* ÒÔÏÂÊÇuninitialized_fillµÄÊµÏÖ£º
 	*void uninitialized_fill(_ForwardIterator first, _ForwardIterator last,	const _T& x) 
-	*ä¸Šä¸ºå‡½æ•°åŸå‹ï¼Œä¹Ÿèƒ½å°†å†…å­˜é…ç½®ä¸å¯¹è±¡æ„é€ è¡Œä¸ºåˆ†ç¦»å¼€ï¼Œå¦‚æœåœ¨[first,last)ä¸Šæ¯ä¸ª
-	*è¿­ä»£å™¨éƒ½æŒ‡å‘æ²¡æœ‰åˆå§‹åŒ–çš„å†…å­˜ï¼Œé‚£ä¹ˆè¿™ä¸ªå‡½æ•°å°†åœ¨è¿™ä¸ªèŒƒå›´å†…äº§ç”Ÿxçš„å¤åˆ¶å“ã€‚
+	*ÉÏÎªº¯ÊıÔ­ĞÍ£¬Ò²ÄÜ½«ÄÚ´æÅäÖÃÓë¶ÔÏó¹¹ÔìĞĞÎª·ÖÀë¿ª£¬Èç¹ûÔÚ[first,last)ÉÏÃ¿¸ö
+	*µü´úÆ÷¶¼Ö¸ÏòÃ»ÓĞ³õÊ¼»¯µÄÄÚ´æ£¬ÄÇÃ´Õâ¸öº¯Êı½«ÔÚÕâ¸ö·¶Î§ÄÚ²úÉúxµÄ¸´ÖÆÆ·¡£
 	*
 	*/
 
-	// å¦‚æœæ˜¯POD å‹åˆ«ï¼ŒPODå‰é¢è¯´è¿‡ï¼Œä¼šè½¬è¿›åˆ°ä»¥ä¸‹å‡½æ•°
+	// Èç¹ûÊÇPOD ĞÍ±ğ£¬PODÇ°ÃæËµ¹ı£¬»á×ª½øµ½ÒÔÏÂº¯Êı
 	template <class _ForwardIterator, class _T>
 	inline
 		void _uninitialized_fill_aux(_ForwardIterator first, _ForwardIterator last,
 			const _T& x, __true_type)
 	{
-		fill(first, last, x);//ç®—æ³•fill()
+		fill(first, last, x);//Ëã·¨fill()
 	}
 
-	// å¦‚æœæ˜¯non-POD å‹åˆ«ï¼Œæ‰§è¡Œæµç¨‹å°±ä¼šè½¬è¿›åˆ°ä»¥ä¸‹å‡½æ•°
+	// Èç¹ûÊÇnon-POD ĞÍ±ğ£¬Ö´ĞĞÁ÷³Ì¾Í»á×ª½øµ½ÒÔÏÂº¯Êı
 	template <class _ForwardIterator, class _T>
 	void _uninitialized_fill_aux(_ForwardIterator first, _ForwardIterator last,
 		const _T& x, __false_type)
@@ -145,7 +146,7 @@ namespace MySTL {
 		try
 		{
 			for (; cur != last; ++cur)
-				construct(&*cur, x);	// å¿…é¡»ä¸€ä¸ªä¸€ä¸ªå…ƒç´ åœ°å»ºæ„ï¼Œæ— æ³•æ‰¹é‡è¿›è¡Œ
+				construct(&*cur, x);	// ±ØĞëÒ»¸öÒ»¸öÔªËØµØ½¨¹¹£¬ÎŞ·¨ÅúÁ¿½øĞĞ
 		}
 		catch (...)
 		{
@@ -153,7 +154,7 @@ namespace MySTL {
 			throw;
 		}
 	}
-	//æ ¹æ®æ˜¯å¦ä¸ºPODç±»å‹è°ƒç”¨ä¸Šé¢çš„å‡½æ•°
+	//¸ù¾İÊÇ·ñÎªPODÀàĞÍµ÷ÓÃÉÏÃæµÄº¯Êı
 	template <class _ForwardIterator, class _T, class _T1>
 	inline void _uninitialized_fill(_ForwardIterator first, _ForwardIterator last,
 		const _T& x, _T1*)
@@ -162,33 +163,33 @@ namespace MySTL {
 		_uninitialized_fill_aux(first, last, x, is_POD());
 
 	}
-	//æ ¹æ®è¿­ä»£å™¨ç±»å‹
+	//¸ù¾İµü´úÆ÷ÀàĞÍ
 	template <class _ForwardIterator, class _T>
 	inline
 		void uninitialized_fill(_ForwardIterator first, _ForwardIterator last,
 			const _T& x)
 	{
-		//åˆ©ç”¨ value_type() å–å‡º first çš„ value type.
+		//ÀûÓÃ value_type() È¡³ö first µÄ value type.
 		_uninitialized_fill(first, last, x, value_type(first));
 	}
 
-	/*ä»¥ä¸‹æ˜¯uninitialized_fill_nçš„å®ç°ï¼š
+	/*ÒÔÏÂÊÇuninitialized_fill_nµÄÊµÏÖ£º
 	*_ForwardIterator uninitialized_fill_n(_ForwardIterator first, _Size n,const _T& x)
-	*åœ¨æŒ‡å®šèŒƒå›´å†…ä¸ºæ‰€æœ‰å…ƒç´ è®¾å®šç›¸åŒçš„åˆå€¼
-	*å¦‚æœåœ¨[first,last)ä¸Šæ¯ä¸ª
-	*è¿­ä»£å™¨éƒ½æŒ‡å‘æ²¡æœ‰åˆå§‹åŒ–çš„å†…å­˜ï¼Œé‚£ä¹ˆè¿™ä¸ªå‡½æ•°å°†åœ¨è¿™ä¸ªèŒƒå›´å†…äº§ç”Ÿxçš„å¤åˆ¶å“ã€‚
+	*ÔÚÖ¸¶¨·¶Î§ÄÚÎªËùÓĞÔªËØÉè¶¨ÏàÍ¬µÄ³õÖµ
+	*Èç¹ûÔÚ[first,last)ÉÏÃ¿¸ö
+	*µü´úÆ÷¶¼Ö¸ÏòÃ»ÓĞ³õÊ¼»¯µÄÄÚ´æ£¬ÄÇÃ´Õâ¸öº¯Êı½«ÔÚÕâ¸ö·¶Î§ÄÚ²úÉúxµÄ¸´ÖÆÆ·¡£
 	*/
 
-	// å¦‚æœæ˜¯POD å‹åˆ«ï¼Œæ‰§è¡Œæµç¨‹å°±ä¼šè½¬è¿›åˆ°ä»¥ä¸‹å‡½æ•°
+	// Èç¹ûÊÇPOD ĞÍ±ğ£¬Ö´ĞĞÁ÷³Ì¾Í»á×ª½øµ½ÒÔÏÂº¯Êı
 	template <class _ForwardIterator, class _Size, class _T>
 	inline
 		_ForwardIterator _uninitialized_fill_n_aux(_ForwardIterator first, _Size n,
 			const _T& x, __true_type)
 	{
-		return MyStl::fill_n(first, n, x); //ç®—æ³•fill_n()
+		return MySTL::fill_n(first, n, x); //Ëã·¨fill_n()
 	}
 
-	// å¦‚æœæ˜¯non-POD å‹åˆ«ï¼Œæ‰§è¡Œæµç¨‹å°±ä¼šè½¬è¿›åˆ°ä»¥ä¸‹å‡½æ•°
+	// Èç¹ûÊÇnon-POD ĞÍ±ğ£¬Ö´ĞĞÁ÷³Ì¾Í»á×ª½øµ½ÒÔÏÂº¯Êı
 	template <class _ForwardIterator, class _Size, class _T>
 	_ForwardIterator _uninitialized_fill_n_aux(_ForwardIterator first, _Size n,
 		const _T& x, __false_type)
@@ -206,7 +207,7 @@ namespace MySTL {
 			throw;
 		}
 	}
-	//æ ¹æ®æ˜¯å¦ä¸ºPODè½¬å‘ä¸Šé¢ä¸¤ä¸ªå‡½æ•°
+	//¸ù¾İÊÇ·ñÎªPOD×ªÏòÉÏÃæÁ½¸öº¯Êı
 	template <class _ForwardIterator, class _Size, class _T, class _T1>
 	inline _ForwardIterator _uninitialized_fill_n(_ForwardIterator first, _Size n,
 		const _T& x, _T1*)
@@ -215,7 +216,7 @@ namespace MySTL {
 		return _uninitialized_fill_n_aux(first, n, x, is_POD());
 
 	}
-	//ç”±value_type(first)å¾—åˆ°è¿­ä»£å™¨å‹åˆ«
+	//ÓÉvalue_type(first)µÃµ½µü´úÆ÷ĞÍ±ğ
 	template <class _ForwardIterator, class _Size, class _T>
 	inline
 		_ForwardIterator uninitialized_fill_n(_ForwardIterator first, _Size n,
@@ -224,23 +225,23 @@ namespace MySTL {
 		return _uninitialized_fill_n(first, n, x, value_type(first));
 	}
 
-	/*__uninitialized_copy_copyã€__uninitialized_fill_copyå’Œ__uninitialized_copy_fillå‡½æ•°
-ã€€ã€€*è¿™å‡ ä¸ªå‡½æ•°æ¯”è¾ƒç®€å•ï¼Œéƒ½æ˜¯è°ƒç”¨ä¸Šé¢çš„å‡½æ•°å°±å¯ä»¥å®ç°åŠŸèƒ½
+	/*__uninitialized_copy_copy¡¢__uninitialized_fill_copyºÍ__uninitialized_copy_fillº¯Êı
+¡¡¡¡*Õâ¼¸¸öº¯Êı±È½Ï¼òµ¥£¬¶¼ÊÇµ÷ÓÃÉÏÃæµÄº¯Êı¾Í¿ÉÒÔÊµÏÖ¹¦ÄÜ
 	*/
-	  //åŒæ—¶æ‹·è´ä¸¤å¯¹è¿­ä»£å™¨å†…çš„å†…å®¹
-	 //æ‹·è´[first1, last1)åˆ°[result, result + (last1 - first1))
-     // åŒæ—¶æ‹·è´[first2, last2)åˆ°
+	  //Í¬Ê±¿½±´Á½¶Ôµü´úÆ÷ÄÚµÄÄÚÈİ
+	 //¿½±´[first1, last1)µ½[result, result + (last1 - first1))
+     // Í¬Ê±¿½±´[first2, last2)µ½
     // [result + (last1 - first1), result + (last1 - first1) + (last2 - first2)]
 	template <class _InputIterator1, class _InputIterator2, class _ForwardIterator>
 	inline
 		_ForwardIterator _uninitialized_copy_copy(_InputIterator1 first1, _InputIterator1 last1,
 			_InputIterator2 first2, _InputIterator2 last2, _ForwardIterator result)
 	{
-		//æ‹·è´ç¬¬ä¸€å¯¹è¿­ä»£å™¨åˆ°result,è¿”å›åœ°å€æ˜¯æœ€åçš„åœ°å€
+		//¿½±´µÚÒ»¶Ôµü´úÆ÷µ½result,·µ»ØµØÖ·ÊÇ×îºóµÄµØÖ·
 		_ForwardIterator mid = uninitialized_copy(first1, last1, result);
 		try
 		{
-			//æ‹·è´ç¬¬äºŒå¯¹è¿­ä»£å™¨åˆ°result,è¿”å›åœ°å€æ˜¯æœ€åçš„åœ°å€
+			//¿½±´µÚ¶ş¶Ôµü´úÆ÷µ½result,·µ»ØµØÖ·ÊÇ×îºóµÄµØÖ·
 			return uninitialized_copy(first2, last2, mid);
 		}
 		catch (...)
@@ -250,8 +251,8 @@ namespace MySTL {
 		}
 	}
 
-	//ç”¨xå¡«å……[result,mid),ä¹‹åå°†[first,last)è¿­ä»£å™¨æ‰€æŒ‡çš„å†…å®¹
-	//æ‹·è´åˆ°midä¹‹å
+	//ÓÃxÌî³ä[result,mid),Ö®ºó½«[first,last)µü´úÆ÷ËùÖ¸µÄÄÚÈİ
+	//¿½±´µ½midÖ®ºó
 	//
 	template <class _ForwardIterator, class _T, class _InputIterator>
 	inline
@@ -270,7 +271,7 @@ namespace MySTL {
 		}
 	}
 
-	// å’Œä¸Šé¢å‡½æ•°å¾ˆåƒï¼Œåªä¸è¿‡è°ƒæ¢é¡ºåºï¼Œå…ˆæ‹·è´å†å¡«å……
+	// ºÍÉÏÃæº¯ÊıºÜÏñ£¬Ö»²»¹ıµ÷»»Ë³Ğò£¬ÏÈ¿½±´ÔÙÌî³ä
 	template <class _InputIterator, class _ForwardIterator, class _T>
 	inline
 		void _uninitialized_copy_fill(_InputIterator first1, _InputIterator last1,
@@ -288,5 +289,5 @@ namespace MySTL {
 		}
 	}
 
-}//end of MyStl
+}
 #endif// end of UNINITIALIZED_H_

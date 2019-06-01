@@ -1,23 +1,23 @@
 /*
-* åŸºç¡€è¿­ä»£å™¨çš„å®ç°
+* »ù´¡µü´úÆ÷µÄÊµÏÖ
 */
 #ifndef ITERATOR_H_
 #define ITERATOR_H_
 #include<cstddef> 
-namespace MyStl
+namespace MySTL
 {
-	// äº”ç§è¿­ä»£å™¨ç±»å‹
-	//è¿™äº›classåªä½œä¸ºæ ‡è®°ï¼Œæ‰€ä»¥ä¸éœ€è¦ä»€ä¹ˆæˆå‘˜
-    //è¿™ç§è¿­ä»£å™¨æ‰€æŒ‡çš„å¯¹è±¡ä¸å…è®¸å¤–ç•Œæ”¹å˜ï¼Œåªè¯»
+	// ÎåÖÖµü´úÆ÷ÀàĞÍ
+	//ÕâĞ©classÖ»×÷Îª±ê¼Ç£¬ËùÒÔ²»ĞèÒªÊ²Ã´³ÉÔ±
+    //ÕâÖÖµü´úÆ÷ËùÖ¸µÄ¶ÔÏó²»ÔÊĞíÍâ½ç¸Ä±ä£¬Ö»¶Á
 	struct input_iterator_tag {};  
-	//å”¯å†™
+	//Î¨Ğ´
 	struct output_iterator_tag {};
-	//å…è®¸å†™å…¥å‹ç®—æ³•ï¼Œå¦‚replace()åœ¨æ­¤ç§è¿­ä»£å™¨åŒºé—´ä¸Šè¿›è¡Œè¯»å†™
+	//ÔÊĞíĞ´ÈëĞÍËã·¨£¬Èçreplace()ÔÚ´ËÖÖµü´úÆ÷Çø¼äÉÏ½øĞĞ¶ÁĞ´
 	struct forward_iterator_tag : public input_iterator_tag {};
-	//å¯åŒå‘ç§»åŠ¨ï¼ŒæŸäº›ç®—æ³•è¦æ±‚
+	//¿ÉË«ÏòÒÆ¶¯£¬Ä³Ğ©Ëã·¨ÒªÇó
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
-	//å‰å››ç§è¿­ä»£å™¨åªä¾›åº”ä¸€éƒ¨åˆ†æŒ‡é’ˆç®—æœ¯è¿ç®—ï¼Œå‰ä¸‰ç§æ”¯æŒoperator++ï¼Œç¬¬å››ç§å†åŠ ä¸Šoperator--ã€‚
-	//ç¬¬äº”ç§å…¨éƒ½æ”¯æŒï¼Œ
+	//Ç°ËÄÖÖµü´úÆ÷Ö»¹©Ó¦Ò»²¿·ÖÖ¸ÕëËãÊõÔËËã£¬Ç°ÈıÖÖÖ§³Öoperator++£¬µÚËÄÖÖÔÙ¼ÓÉÏoperator--¡£
+	//µÚÎåÖÖÈ«¶¼Ö§³Ö£¬
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 	template <class _T, class _Distance>
@@ -70,7 +70,7 @@ namespace MyStl
 		typedef _T&                         reference;
 	};
 
-	//æ³›åŒ–æ¥å£ï¼Œéè¿ç»­å®¹å™¨å®ç°çš„è¿­ä»£å™¨åº”è¯¥ç»§æ‰¿è¿™ä¸ªæ ‡å‡†è¿­ä»£å™¨
+	//·º»¯½Ó¿Ú£¬·ÇÁ¬ĞøÈİÆ÷ÊµÏÖµÄµü´úÆ÷Ó¦¸Ã¼Ì³ĞÕâ¸ö±ê×¼µü´úÆ÷
 	template <class _Category, class _T, class _Distance = ptrdiff_t,
 		class _Pointer = _T*, class _Reference = _T&>
 		struct iterator
@@ -81,7 +81,7 @@ namespace MyStl
 		typedef _Pointer    pointer;
 		typedef _Reference  reference;
 	};
-	//iteratorå‹åˆ«èƒå–
+	//iteratorĞÍ±ğİÍÈ¡
 	template <class _Iterator>
 	struct iterator_traits
 	{
@@ -92,11 +92,11 @@ namespace MyStl
 		typedef typename _Iterator::reference         reference;
 	};
 
-	// é’ˆå¯¹åŸç”ŸæŒ‡é’ˆè€Œè®¾è®¡çš„traitsåç‰¹åŒ–ç‰ˆã€‚
+	// Õë¶ÔÔ­ÉúÖ¸Õë¶øÉè¼ÆµÄtraitsÆ«ÌØ»¯°æ¡£
 	template <class _T>
 	struct iterator_traits<_T*>
 	{
-		//åŸç”ŸæŒ‡é’ˆçš„è¿­ä»£å™¨å‹åˆ«æ˜¯random_access_iterator_tag
+		//Ô­ÉúÖ¸ÕëµÄµü´úÆ÷ĞÍ±ğÊÇrandom_access_iterator_tag
 		typedef random_access_iterator_tag  iterator_category;
 		typedef _T                          value_type;
 		typedef ptrdiff_t                   difference_type;
@@ -104,18 +104,18 @@ namespace MyStl
 		typedef _T&                         reference;
 	};
 
-	// é’ˆå¯¹åŸç”Ÿtop-level constæŒ‡é’ˆè®¾è®¡çš„traitsåç‰¹åŒ–ç‰ˆã€‚
+	// Õë¶ÔÔ­Éútop-level constÖ¸ÕëÉè¼ÆµÄtraitsÆ«ÌØ»¯°æ¡£
 	template <class _T>
 	struct iterator_traits<const _T*>
 	{
 		typedef random_access_iterator_tag  iterator_category;
-		typedef _T                          value_type; //æ³¨æ„value_typeæ˜¯_T
+		typedef _T                          value_type; //×¢Òâvalue_typeÊÇ_T
 		typedef ptrdiff_t                   difference_type;
 		typedef const _T*                   pointer;
 		typedef const _T&                   reference;
 	};
 
-	//å–å¾—æŸä¸ªè¿­ä»£å™¨çš„ç±»å‹ï¼ˆcategoryï¼‰
+	//È¡µÃÄ³¸öµü´úÆ÷µÄÀàĞÍ£¨category£©
 	template <class _Iterator>
 	inline
 		typename iterator_traits<_Iterator>::iterator_category iterator_category(const _Iterator&)
@@ -124,7 +124,7 @@ namespace MyStl
 		return category();
 	}
 
-	// å–å¾—æŸä¸ªè¿­ä»£å™¨çš„distance_typeï¼ˆæŒ‡é’ˆï¼‰
+	// È¡µÃÄ³¸öµü´úÆ÷µÄdistance_type£¨Ö¸Õë£©
 	template <class _Iterator>
 	inline
 		typename iterator_traits<_Iterator>::difference_type* distance_type(const _Iterator&)
@@ -132,7 +132,7 @@ namespace MyStl
 		return static_cast<typename iterator_traits<_Iterator>::difference_type*>(0);
 	}
 
-	// å–å¾—æŸä¸ªè¿­ä»£å™¨çš„value_typeï¼ˆæŒ‡é’ˆï¼‰
+	// È¡µÃÄ³¸öµü´úÆ÷µÄvalue_type£¨Ö¸Õë£©
 	template <class _Iterator>
 	inline
 		typename iterator_traits<_Iterator>::value_type* value_type(const _Iterator&)
@@ -140,7 +140,7 @@ namespace MyStl
 		return static_cast<typename iterator_traits<_Iterator>::value_type*>(0);
 	}
 
-	// ä»¥ä¸‹æ˜¯æ•´ç»„distanceå‡½å¼
+	// ÒÔÏÂÊÇÕû×édistanceº¯Ê½
 	template <class _InputIterator>
 	inline
 		typename iterator_traits<_InputIterator>::difference_type _distance(_InputIterator first,
@@ -161,8 +161,8 @@ namespace MyStl
 	{
 		return last - first;
 	}
-	//å‡½æ•°distance,ç”¨æ¥è®¡ç®—ä¸¤ä¸ªè¿­ä»£å™¨ä¹‹é—´çš„è·ç¦»ï¼Œé’ˆå¯¹ä¸åŒçš„è¿­ä»£å™¨ç±»å‹
-	//è·³è½¬åˆ°ä¸Šé¢å…¶ä¸­ä¸€ä¸ªå‡½æ•°
+	//º¯Êıdistance,ÓÃÀ´¼ÆËãÁ½¸öµü´úÆ÷Ö®¼äµÄ¾àÀë£¬Õë¶Ô²»Í¬µÄµü´úÆ÷ÀàĞÍ
+	//Ìø×ªµ½ÉÏÃæÆäÖĞÒ»¸öº¯Êı
 	template <class _InputIterator>
 	inline
 		typename iterator_traits<_InputIterator>::difference_type distance(_InputIterator first,
@@ -174,7 +174,7 @@ namespace MyStl
 
 
 
-	// ä»¥ä¸‹æ˜¯æ•´ç»„ advance å‡½å¼
+	// ÒÔÏÂÊÇÕû×é advance º¯Ê½
 	
 	template <class _InputIterator, class _Distance>
 	inline void _advance(_InputIterator& i, _Distance n, input_iterator_tag)
@@ -198,8 +198,8 @@ namespace MyStl
 	{
 		i += n;
 	}
-	//è¯¥å‡½æ•°æœ‰ä¸¤ä¸ªå‚æ•°ï¼Œè¿­ä»£å™¨på’Œæ•°å€¼nï¼Œå‡½æ•°å†…éƒ¨å°†pç´¯è¿›næ¬¡
-	//æ ¹æ®è¿­ä»£å™¨å‹åˆ«è·³è½¬åˆ°ä¸Šé¢å…¶ä¸­ä¹‹ä¸€çš„å‡½æ•°ã€‚
+	//¸Ãº¯ÊıÓĞÁ½¸ö²ÎÊı£¬µü´úÆ÷pºÍÊıÖµn£¬º¯ÊıÄÚ²¿½«pÀÛ½øn´Î
+	//¸ù¾İµü´úÆ÷ĞÍ±ğÌø×ªµ½ÉÏÃæÆäÖĞÖ®Ò»µÄº¯Êı¡£
 	template <class _InputIterator, class _Distance>
 	inline void advance(_InputIterator& i, _Distance n)
 	{

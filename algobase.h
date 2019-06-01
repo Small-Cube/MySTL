@@ -1,4 +1,4 @@
-//åŸºæœ¬ç®—æ³•ï¼Œæ ¹æ®éœ€è¦ä¸æ–­æ·»åŠ 
+//»ù±¾Ëã·¨£¬¸ù¾İĞèÒª²»¶ÏÌí¼Ó
 #ifndef ALGOBASE_H_
 #define ALGOBASE_H_
 
@@ -10,34 +10,56 @@
 #include <iostream>
 
 namespace MySTL {
-	//ä»¥ä¸‹æ˜¯copyçš„å®ç°ï¼š
-	//é’ˆå¯¹input_iteratorã€forward_iteratorã€bidirectional_iterator
-	//è¾“å…¥ä¸¤ä¸ªè¿­ä»£å™¨ï¼Œä¸€ä¸ªèµ·å§‹ä½ç½®ä¸€ä¸ªç»ˆæ­¢ä½ç½®ï¼Œè¿”å›æ–°çš„ä½ç½®
-	//_copyæ˜¯_copy_dispatchçš„æ³›åŒ–
+	//È¡Á½¶ÔÏóÖĞ½ÏĞ¡Õß/½Ï´óÕß
+	//ÏàµÈÊ±Í³Ò»È¡Ç°Õß
+	template <class _T>
+	inline const _T& min(const _T& a, const _T& b)
+	{
+		return b < a ? b : a;
+	}
+	template <class _T>
+	inline const _T& max(const _T& a, const _T& b)
+	{
+		return  a < b ? b : a;
+	}
+	template <class _T, class _Compare>
+	inline const _T& min(const _T& a, const _T& b, _Compare comp)
+	{
+		return comp(b, a) ? b : a;	// ÓÉ comp ¾ö¶¨¡¸´óĞ¡±È½Ï¡¹±ê×¼
+	}
+	template <class _T, class _Compare>
+	inline const _T& max(const _T& a, const _T& b, _Compare comp)
+	{
+		return comp(a, b) ? b : a;	// ÓÉ comp ¾ö¶¨¡¸´óĞ¡±È½Ï¡¹±ê×¼
+	}
+	//ÒÔÏÂÊÇcopyµÄÊµÏÖ£º
+	//Õë¶Ôinput_iterator¡¢forward_iterator¡¢bidirectional_iterator
+	//ÊäÈëÁ½¸öµü´úÆ÷£¬Ò»¸öÆğÊ¼Î»ÖÃÒ»¸öÖÕÖ¹Î»ÖÃ£¬·µ»ØĞÂµÄÎ»ÖÃ
+	//_copyÊÇ_copy_dispatchµÄ·º»¯
 	template <class _InputIterator, class _OutputIterator>
 	inline
 		_OutputIterator _copy(_InputIterator first, _InputIterator last,
-			_OutputIterator result, input_iterator_tag)
+			_OutputIterator result, MySTL::input_iterator_tag)
 	{
-		//æ¯”è¾ƒè¿­ä»£å™¨æ˜¯å¦ç›¸ç­‰å†³å®šå¾ªç¯æ˜¯å¦ç»§ç»­
+		//±È½Ïµü´úÆ÷ÊÇ·ñÏàµÈ¾ö¶¨Ñ­»·ÊÇ·ñ¼ÌĞø
 		for (; first != last; ++result, ++first)
 			*result = *first;
 		return result;
 	}
-	//è¿™ä¸ªå‡½æ•°æ¯”ä¸Šé¢çš„å¿«ï¼Œ_copy_dæ˜¯ä¸Šé¢_copyçš„å¼ºåŒ–
+	//Õâ¸öº¯Êı±ÈÉÏÃæµÄ¿ì£¬_copy_dÊÇÉÏÃæ_copyµÄÇ¿»¯
 	template <class _RandomAccessIterator, class _OutputIterator, class _Distance>
 	inline
 		_OutputIterator _copy_d(_RandomAccessIterator first, _RandomAccessIterator last,
 			_OutputIterator result, _Distance*)
 	{
-		//ä»¥è¿­ä»£å™¨è·ç¦»nå†³å®šå¾ªç¯æ˜¯å¦ç»§ç»­æ‰§è¡Œ
+		//ÒÔµü´úÆ÷¾àÀën¾ö¶¨Ñ­»·ÊÇ·ñ¼ÌĞøÖ´ĞĞ
 		for (_Distance n = last - first; n > 0; --n, ++result, ++first)
 			*result = *first;
 		return result;
 	}
 
-	//é’ˆå¯¹random_access_iteratoréšæœºè®¿é—®è¿­ä»£å™¨
-	//è°ƒç”¨ä¸Šé¢å‡½æ•°
+	//Õë¶Ôrandom_access_iteratorËæ»ú·ÃÎÊµü´úÆ÷
+	//µ÷ÓÃÉÏÃæº¯Êı
 	template <class _RandomAccessIterator, class _OutputIterator>
 	inline
 		_OutputIterator _copy(_RandomAccessIterator first, _RandomAccessIterator last,
@@ -46,7 +68,7 @@ namespace MySTL {
 		return _copy_d(first, last, result, distance_type(first));
 	}
 
-	//æ³›åŒ–ç‰ˆ_copy_dispatch
+	//·º»¯°æ_copy_dispatch
 	template <class _InputIterator, class _OutputIterator>
 	struct _copy_dispatch
 	{
@@ -57,8 +79,8 @@ namespace MySTL {
 		}
 	};
 
-	//ç‰¹åŒ–ç‰ˆæœ¬ä¸€ï¼šæŒ‡é’ˆæ‰€æŒ‡å¯¹è±¡æœ‰ å¹³å‡¡èµ‹å€¼è¿ç®—ç¬¦
-	//æ˜¯ä¸Šé¢_copy_dispatchçš„ä¸€ä¸ªç‰¹åŒ–ç‰ˆæœ¬
+	//ÌØ»¯°æ±¾Ò»£ºÖ¸ÕëËùÖ¸¶ÔÏóÓĞ Æ½·²¸³ÖµÔËËã·û
+	//ÊÇÉÏÃæ_copy_dispatchµÄÒ»¸öÌØ»¯°æ±¾
 	template <class _T>
 	inline
 		_T* _copy_t(const _T* first, const _T* last, _T* result, __true_type)
@@ -66,15 +88,15 @@ namespace MySTL {
 		memmove(result, first, sizeof(_T) * (last - first));
 		return result + (last - first);
 	}
-	//ç‰¹åŒ–ç‰ˆæœ¬äºŒï¼šæŒ‡é’ˆæ‰€æŒ‡å¯¹è±¡æœ‰ éå¹³å‡¡èµ‹å€¼è¿ç®—ç¬¦
-	//æ˜¯ä¸Šé¢_copy_dispatchçš„ä¸€ä¸ªç‰¹åŒ–ç‰ˆæœ¬
+	//ÌØ»¯°æ±¾¶ş£ºÖ¸ÕëËùÖ¸¶ÔÏóÓĞ ·ÇÆ½·²¸³ÖµÔËËã·û
+	//ÊÇÉÏÃæ_copy_dispatchµÄÒ»¸öÌØ»¯°æ±¾
 	template <class _T>
 	inline
 		_T* _copy_t(const _T* first, const _T* last, _T* result, __false_type)
 	{
 		return _copy_d(first, last, result, (ptrdiff_t*)0);
 	}
-	//æ ¹æ®å‹åˆ«æ¥è°ƒç”¨ä¸Šé¢çš„ä¸¤ä¸ªç‰¹åŒ–ç‰ˆæœ¬ï¼Œå…¶å®è°ƒç”¨çš„æ˜¯_copy_dæˆ–è€…memmove
+	//¸ù¾İĞÍ±ğÀ´µ÷ÓÃÉÏÃæµÄÁ½¸öÌØ»¯°æ±¾£¬ÆäÊµµ÷ÓÃµÄÊÇ_copy_d»òÕßmemmove
 	template <class _T>
 	struct _copy_dispatch<_T*, _T*>
 	{
@@ -84,7 +106,7 @@ namespace MySTL {
 			return _copy_t(first, last, result, t());
 		}
 	};
-	//æ ¹æ®å‹åˆ«æ¥è°ƒç”¨ä¸Šé¢çš„ä¸¤ä¸ªç‰¹åŒ–ç‰ˆæœ¬
+	//¸ù¾İĞÍ±ğÀ´µ÷ÓÃÉÏÃæµÄÁ½¸öÌØ»¯°æ±¾
 	template <class _T>
 	struct _copy_dispatch<const _T*, _T*>
 	{
@@ -94,8 +116,8 @@ namespace MySTL {
 			return _copy_t(first, last, result, t());
 		}
 	};
-	//çœ‹ä»£ç æ—¶ï¼Œä»è¿™é‡Œå¼€å§‹çœ‹ï¼Œç„¶åä¸€æ­¥ä¸€æ­¥å‘ä¸Šè¿­ä»£ï¼Œæ‰¾åˆ°è°ƒç”¨å…³ç³»ã€‚
-	//æ³›åŒ–æ¥å£ï¼š
+	//¿´´úÂëÊ±£¬´ÓÕâÀï¿ªÊ¼¿´£¬È»ºóÒ»²½Ò»²½ÏòÉÏµü´ú£¬ÕÒµ½µ÷ÓÃ¹ØÏµ¡£
+	//·º»¯½Ó¿Ú£º
 	template <class _InputIterator, class _OutputIterator>
 	inline
 		_OutputIterator copy(_InputIterator first, _InputIterator last,
@@ -103,36 +125,103 @@ namespace MySTL {
 	{
 		return _copy_dispatch<_InputIterator, _OutputIterator>()(first, last, result);
 	}
-	//ç‰¹åŒ–æ¥å£ï¼šè°ƒç”¨memmove()å‡½æ•°å®ç°copy
+	//ÌØ»¯½Ó¿Ú£ºµ÷ÓÃmemmove()º¯ÊıÊµÏÖcopy
 	inline
 		char* copy(const char* first, const char* last, char* result)
 	{
 		memmove(result, first, last - first);
 		return result + (last - first);
 	}
-	//ç‰¹åŒ–æ¥å£ï¼šè°ƒç”¨memmove()å‡½æ•°å®ç°copy
+	//ÌØ»¯½Ó¿Ú£ºµ÷ÓÃmemmove()º¯ÊıÊµÏÖcopy
 	inline
 		wchar_t* copy(const wchar_t* first, const wchar_t* last, wchar_t* result)
 	{
 		memmove(result, first, sizeof(wchar_t) * (last - first));
 		return result + (last - first);
 	}
+	//ÒÔÏÂÊÇcopy_backwardµÄÊµÏÖ£º
+	template <class _BidirectionalIterator1, class _BidirectionalIterator2>
+	inline _BidirectionalIterator2 _copy_backward(_BidirectionalIterator1 first,
+		_BidirectionalIterator1 last,
+		_BidirectionalIterator2 result) {
+		while (first != last) *--result = *--last;
+		return result;
+	}
 
-	//åŒºé—´å†…å…ƒç´ æ”¹å¡«æ–°å€¼
-	//åœ¨å†…å­˜å¤„ç†å·¥å…·ä¸­ç”¨åˆ°
+	template <class _BidirectionalIterator1, class _BidirectionalIterator2>
+	struct _copy_backward_dispatch
+	{
+		_BidirectionalIterator2 operator()(_BidirectionalIterator1 first,
+			_BidirectionalIterator1 last,
+			_BidirectionalIterator2 result) {
+			return _copy_backward(first, last, result);
+		}
+	};
+
+	template <class _T>
+	inline
+		_T* _copy_backward_t(const _T* first, const _T* last, _T* result,
+			__true_type)
+	{
+		const ptrdiff_t N = last - first;
+		memmove(result - N, first, sizeof(_T) * N);
+		return result - N;
+	}
+
+	template <class _T>
+	inline
+		_T* _copy_backward_t(const _T* first, const _T* last, _T* result,
+			__false_type)
+	{
+		return _copy_backward(first, last, result);
+	}
+
+	template <class _T>
+	struct _copy_backward_dispatch<_T*, _T*>
+	{
+		_T* operator()(_T* first, _T* last, _T* result)
+		{
+			typedef typename __type_traits<_T>::has_trivial_assignment_operator t;
+			return _copy_backward_t(first, last, result, t());
+		}
+	};
+
+	template <class _T>
+	struct _copy_backward_dispatch<const _T*, _T*>
+	{
+		_T* operator()(const _T* first, const _T* last, _T* result)
+		{
+			typedef typename __type_traits<_T>::has_trivial_assignment_operator t;
+			return _copy_backward_t(first, last, result, t());
+		}
+	};
+
+	//copy_backward½Ó¿Ú£º
+	template <class _BidirectionalIterator1, class _BidirectionalIterator2>
+	inline _BidirectionalIterator2 copy_backward(_BidirectionalIterator1 first,
+		_BidirectionalIterator1 last,
+		_BidirectionalIterator2 result)
+	{
+		return _copy_backward_dispatch<_BidirectionalIterator1,
+			_BidirectionalIterator2>()(first, last, result);
+	}
+
+
+	//Çø¼äÄÚÔªËØ¸ÄÌîĞÂÖµ
+	//ÔÚÄÚ´æ´¦Àí¹¤¾ßÖĞÓÃµ½
 	template <class _ForwardIterator, class _T>
 	void fill(_ForwardIterator first, _ForwardIterator last, const _T& value)
 	{
-		for (; first != last; ++first)	//è¿­ä»£èµ°è¿‡æ•´ä¸ªèŒƒå›´
+		for (; first != last; ++first)	//µü´ú×ß¹ıÕû¸ö·¶Î§
 			*first = value;
 	}
 
-	//åŒºé—´å†…å‰nä¸ªå…ƒç´ æ”¹å¡«æ–°å€¼ï¼Œè¿”å›æœ€åä¸€ä¸ªè¢«æ”¹å¡«å…ƒç´ çš„ä¸‹ä¸€å…ƒç´ è¿­ä»£å™¨
+	//Çø¼äÄÚÇ°n¸öÔªËØ¸ÄÌîĞÂÖµ£¬·µ»Ø×îºóÒ»¸ö±»¸ÄÌîÔªËØµÄÏÂÒ»ÔªËØµü´úÆ÷
 	template <class _OutputIterator, class _Size, class _T>
 	_OutputIterator fill_n(_OutputIterator first, _Size n, const _T& value)
 	{
-		for (; n > 0; --n, ++first)		// ç»è¿‡nä¸ªå…ƒç´ 
-			*first = value;	// æ³¨æ„ï¼Œassignment æ˜¯è¦†å†™ï¼ˆoverwriteï¼‰è€Œä¸æ˜¯å®‰æ’ï¼ˆinsertï¼‰
+		for (; n > 0; --n, ++first)		// ¾­¹ın¸öÔªËØ
+			*first = value;	// ×¢Òâ£¬assignment ÊÇ¸²Ğ´£¨overwrite£©¶ø²»ÊÇ°²²å£¨insert£©
 		return first;
 	}
 

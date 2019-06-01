@@ -1,8 +1,8 @@
 /*
-* å®šä¹‰äº†äº”ä¸ªå…¨å±€å‡½æ•°â€”â€”construct(), destroy(),
+* ¶¨ÒåÁËÎå¸öÈ«¾Öº¯Êı¡ª¡ªconstruct(), destroy(),
 * uninitialized_copy(),uninitialized_fill(),
-* uninitialized_fill_n()ä¸­çš„å‰ä¸¤ä¸ªï¼Œ
-* è´Ÿè´£å¯¹è±¡çš„æ„å»ºå’Œææ„
+* uninitialized_fill_n()ÖĞµÄÇ°Á½¸ö£¬
+* ¸ºÔğ¶ÔÏóµÄ¹¹½¨ºÍÎö¹¹
 */
 #ifndef CONSTRUCT_H_
 #define CONSTRUCT_H_
@@ -10,65 +10,64 @@
 #include "type_traits.h"
 #include "iterator.h"
 namespace MySTL {
-	//æ„é€ å¯¹è±¡
-	//æ¥å—ä¸€ä¸ªæŒ‡é’ˆå’Œä¸€ä¸ªåˆå€¼ï¼Œå°†åˆå€¼è®¾å®šåˆ°æŒ‡é’ˆæ‰€æŒ‡çš„ç©ºé—´ä¸Š
+	//¹¹Ôì¶ÔÏó
+	//½ÓÊÜÒ»¸öÖ¸ÕëºÍÒ»¸ö³õÖµ£¬½«³õÖµÉè¶¨µ½Ö¸ÕëËùÖ¸µÄ¿Õ¼äÉÏ
 	template <class _T1, class _T2>
 	inline void construct(_T1* p, const _T2& value)
 	{
-		new (p) _T1(value); 	// placement new; è°ƒç”¨ T1::T1(value);
+		new (p) _T1(value); 	// placement new; µ÷ÓÃ T1::T1(value);
 	}
-	//destroy å°†å¯¹è±¡ææ„
-	/*destroyçš„ç¬¬ä¸€ä¸ªç‰ˆæœ¬ï¼Œç¬¬ä¸€ä¸ªç‰ˆæœ¬æ¥å—ä¸€ä¸ªæŒ‡é’ˆ
-	***å°†æŒ‡é’ˆæ‰€æŒ‡ä¹‹ç‰©ææ„ï¼Œç›´æ¥è°ƒç”¨è¯¥å¯¹è±¡çš„ææ„å‡½æ•°
+	//destroy ½«¶ÔÏóÎö¹¹
+	/*destroyµÄµÚÒ»¸ö°æ±¾£¬µÚÒ»¸ö°æ±¾½ÓÊÜÒ»¸öÖ¸Õë
+	***½«Ö¸ÕëËùÖ¸Ö®ÎïÎö¹¹£¬Ö±½Óµ÷ÓÃ¸Ã¶ÔÏóµÄÎö¹¹º¯Êı
 	*/
 	template<class _T>
 	inline void destroy(_T* pointer) {
-		pointer->~_T();//è°ƒç”¨~_T();
+		pointer->~_T();//µ÷ÓÃ~_T();
 	}
-	/*destroyçš„ç¬¬äºŒä¸ªç‰ˆæœ¬ï¼Œç¬¬äºŒä¸ªç‰ˆæœ¬æ¥å—ä¸¤ä¸ªè¿­ä»£å™¨
-	***å°†ä¸¤ä¸ªè¿­ä»£å™¨èŒƒå›´å†…çš„å¯¹è±¡ææ„
-	***è¿™ä¸ªèŒƒå›´å¯èƒ½å¾ˆå¤§ï¼Œå¦‚æœæ¯ä¸ªå¯¹è±¡çš„ææ„å‡½æ•°éƒ½æ˜¯trivial destructor
-	***é‚£ä¹ˆä¸€ç›´è°ƒç”¨è¿™ä¸ªå°†å¯¹æ•ˆç‡æœ‰å¾ˆå¤§å½±å“ï¼Œæ‰€ä»¥åœ¨è¿™é‡Œè¦ä½¿ç”¨value_type()
-	***è·å¾—è¿­ä»£å™¨æ‰€æŒ‡å¯¹è±¡çš„å‹åˆ«ï¼Œå†åˆ©ç”¨èƒå–æœºåˆ¶åˆ¤æ–­è¯¥å¯¹è±¡çš„ææ„å‡½æ•°æ˜¯å¦æ˜¯
-	***trivial destructorï¼Œå¦‚æœæ˜¯åˆ™ä»€ä¹ˆä¹Ÿä¸åšå°±ç»“æŸï¼Œä¸æ˜¯åˆ™å¾ªç¯æ•´ä¸ªèŒƒå›´
-	***å¯¹æ¯ä¸€ä¸ªå¯¹è±¡è°ƒç”¨ç¬¬ä¸€ä¸ªç‰ˆæœ¬destroy
+	/*destroyµÄµÚ¶ş¸ö°æ±¾£¬µÚ¶ş¸ö°æ±¾½ÓÊÜÁ½¸öµü´úÆ÷
+	***½«Á½¸öµü´úÆ÷·¶Î§ÄÚµÄ¶ÔÏóÎö¹¹
+	***Õâ¸ö·¶Î§¿ÉÄÜºÜ´ó£¬Èç¹ûÃ¿¸ö¶ÔÏóµÄÎö¹¹º¯Êı¶¼ÊÇtrivial destructor
+	***ÄÇÃ´Ò»Ö±µ÷ÓÃÕâ¸ö½«¶ÔĞ§ÂÊÓĞºÜ´óÓ°Ïì£¬ËùÒÔÔÚÕâÀïÒªÊ¹ÓÃvalue_type()
+	***»ñµÃµü´úÆ÷ËùÖ¸¶ÔÏóµÄĞÍ±ğ£¬ÔÙÀûÓÃİÍÈ¡»úÖÆÅĞ¶Ï¸Ã¶ÔÏóµÄÎö¹¹º¯ÊıÊÇ·ñÊÇ
+	***trivial destructor£¬Èç¹ûÊÇÔòÊ²Ã´Ò²²»×ö¾Í½áÊø£¬²»ÊÇÔòÑ­»·Õû¸ö·¶Î§
+	***¶ÔÃ¿Ò»¸ö¶ÔÏóµ÷ÓÃµÚÒ»¸ö°æ±¾destroy
 	*/
-	//trivial destructoræŒ‡é»˜è®¤ææ„ï¼Œnon-trivial destructorè‡ªå®šä¹‰
-	// å…ƒç´ çš„å€¼ç±»å‹ï¼ˆvalue typeï¼‰æ²¡æœ‰trivial destructor
+	//trivial destructorÖ¸Ä¬ÈÏÎö¹¹£¬non-trivial destructor×Ô¶¨Òå
+	// ÔªËØµÄÖµÀàĞÍ£¨value type£©Ã»ÓĞtrivial destructor
 	template <class _ForwardIterator>
 	inline
 		void _destroy_aux(_ForwardIterator first, _ForwardIterator last, __false_type)
 	{
-		for (; first < last; ++first) //é€ä¸ªè°ƒç”¨ææ„å‡½æ•°
+		for (; first < last; ++first) //Öğ¸öµ÷ÓÃÎö¹¹º¯Êı
 			destroy(&*first);
 	}
-	// å…ƒç´ çš„å€¼ç±»å‹ï¼ˆvalue typeï¼‰æœ‰trivial destructor
-	//ä»€ä¹ˆä¹Ÿä¸åš
+	// ÔªËØµÄÖµÀàĞÍ£¨value type£©ÓĞtrivial destructor
+	//Ê²Ã´Ò²²»×ö
 	template <class _ForwardIterator>
 	inline
 		void _destroy_aux(_ForwardIterator first, _ForwardIterator last, __true_type)
 	{
 	}
-	// åˆ¤æ–­å…ƒç´ çš„å€¼ç±»å‹ï¼ˆvalue typeï¼‰æ˜¯å¦æœ‰ trivial destructor
+	// ÅĞ¶ÏÔªËØµÄÖµÀàĞÍ£¨value type£©ÊÇ·ñÓĞ trivial destructor
 	template <class _ForwardIterator, class _T>
 	inline void _destroy(_ForwardIterator first, _ForwardIterator last, _T*)
 	{
-		//èƒå–_Tçš„å‹åˆ«ç‰¹æ€§ï¼Œèƒå–ç›¸å…³ä»£ç åœ¨"type_traits.h"
+		//İÍÈ¡_TµÄĞÍ±ğÌØĞÔ£¬İÍÈ¡Ïà¹Ø´úÂëÔÚ"type_traits.h"
 		typedef typename __type_traits<_T>::has_trivial_destructor trivial_destructor;
 		_destroy_aux(first, last, trivial_destructor());
 	}
-	// ä»¥ä¸‹æ˜¯ destroy() ç¬¬äºŒç‰ˆæœ¬ï¼Œæ¥å—ä¸¤ä¸ªè¿­ä»£å™¨ã€‚æ­¤å‡½å¼æ˜¯è®¾æ³•æ‰¾å‡ºå…ƒç´ çš„å€¼ç±»å‹ï¼Œ
-	// è¿›è€Œåˆ©ç”¨ __type_traits<> æ±‚å–æœ€é€‚å½“æªæ–½ã€‚
+	// ÒÔÏÂÊÇ destroy() µÚ¶ş°æ±¾£¬½ÓÊÜÁ½¸öµü´úÆ÷¡£´Ëº¯Ê½ÊÇÉè·¨ÕÒ³öÔªËØµÄÖµÀàĞÍ£¬
+	// ½ø¶øÀûÓÃ __type_traits<> ÇóÈ¡×îÊÊµ±´ëÊ©¡£
 	template <class _ForwardIterator>
 	inline void destroy(_ForwardIterator first, _ForwardIterator last)
 	{
 		_destroy(first, last, value_type(first));
 	}
 
-	// ä»¥ä¸‹æ˜¯destroy() ç¬¬äºŒç‰ˆæœ¬é’ˆå¯¹è¿­ä»£å™¨ä¸º char* å’Œ wchar_t* çš„ç‰¹åŒ–ç‰ˆ
+	// ÒÔÏÂÊÇdestroy() µÚ¶ş°æ±¾Õë¶Ôµü´úÆ÷Îª char* ºÍ wchar_t* µÄÌØ»¯°æ
 	inline void destroy(char*, char*) {}
 	inline void destroy(wchar_t*, wchar_t*) {}
 	
 }
 #endif //end of CONSTRUCT_H_
-

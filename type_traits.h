@@ -1,5 +1,5 @@
-/*å…ˆçœ‹çœ‹ä¹¦ç†è§£äº†èƒå–çš„æœºåˆ¶ï¼Œå†å®ç°
-* èƒå–ä¼ å…¥çš„Tç±»å‹çš„å‹åˆ«ç‰¹æ€§ï¼ŒåŒ…æ‹¬ï¼š
+/*ÏÈ¿´¿´ÊéÀí½âÁËİÍÈ¡µÄ»úÖÆ£¬ÔÙÊµÏÖ
+* İÍÈ¡´«ÈëµÄTÀàĞÍµÄĞÍ±ğÌØĞÔ£¬°üÀ¨£º
 * has_trivial_default_constructor;
 * has_trivial_copy_constructor;
 * has_trivial_assignment_operator;
@@ -11,8 +11,8 @@
 namespace MySTL {
 	struct __true_type {};
 	struct __false_type {};
- 
-	//has nontrivial xxx...å¯ä»¥è‡ªå·±å®šä¹‰
+
+	//has nontrivial xxx...¿ÉÒÔ×Ô¼º¶¨Òå
 	template <class _type>
 	struct __type_traits
 	{
@@ -20,10 +20,10 @@ namespace MySTL {
 		typedef __false_type    has_trivial_copy_constructor;
 		typedef __false_type    has_trivial_assignment_operator;
 		typedef __false_type    has_trivial_destructor;
-		typedef __false_type    is_POD_type;  // æ‰€è°“ POD æ„æŒ‡ Plain Old Data structure. 	
+		typedef __false_type    is_POD_type;  // ËùÎ½ POD ÒâÖ¸ Plain Old Data structure. 	
 	};
- 
-	//ä»¥ä¸‹éƒ½æ˜¯å†…ç½®å‹åˆ«çš„ç‰¹åŒ–
+
+	//ÒÔÏÂ¶¼ÊÇÄÚÖÃĞÍ±ğµÄÌØ»¯
 	template<>
 	struct __type_traits<char>
 	{
@@ -33,7 +33,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<signed char>
 	{
@@ -43,7 +43,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<unsigned char>
 	{
@@ -53,7 +53,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<short>
 	{
@@ -63,7 +63,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<unsigned short>
 	{
@@ -73,7 +73,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<int>
 	{
@@ -83,7 +83,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<unsigned int>
 	{
@@ -93,7 +93,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<long>
 	{
@@ -103,7 +103,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<unsigned long>
 	{
@@ -113,7 +113,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<float>
 	{
@@ -123,7 +123,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<double>
 	{
@@ -133,7 +133,7 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 	template<>
 	struct __type_traits<long double>
 	{
@@ -143,8 +143,8 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
-	//åŸç”ŸæŒ‡é’ˆçš„ç‰¹åŒ–ï¼Œåœ¨æ ‡å‡†åº“é‡Œæ˜¯ä¸€ä¸ªä¸€ä¸ªç‰¹åŒ–çš„ã€‚
+
+	//Ô­ÉúÖ¸ÕëµÄÌØ»¯
 	template <class _T>
 	struct __type_traits<_T*>
 	{
@@ -154,6 +154,6 @@ namespace MySTL {
 		typedef __true_type    has_trivial_destructor;
 		typedef __true_type    is_POD_type;
 	};
- 
+
 }
 #endif
